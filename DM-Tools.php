@@ -39,26 +39,22 @@ if (!class_exists('DM_Tools_WP')) {
                 $this,
                 'character_sheet_access'
 			));
-			// add_filter('grant_access', array(
-			// 	$this,
-			// 	'grant_access_method'
-			// ));
             add_action('personal_options', array(
                 $this,
-                'extra_user_profile_field'
+                'player_access_field'
             ));
             add_action('personal_options', array(
                 $this,
-                'extra_user_profile_field'
+                'player_access_field'
 			));
 			add_action( 'personal_options_update', array(
 				$this,
-				'save_extra_user_profile_field'
+				'save_player_access_field'
 				
 			));
 			add_action( 'edit_user_profile_update',array(
 				$this,
-				'save_extra_user_profile_field'
+				'save_player_access_field'
 				
 			));
 
@@ -76,14 +72,11 @@ if (!class_exists('DM_Tools_WP')) {
         function enqueue()
         {
             // get scripts
-            wp_register_style('pluginstyle', plugins_url('/assets/DL-Table.css', __FILE__));
-            wp_enqueue_style('pluginstyle', plugins_url('/assets/DL-Table.css', __FILE__));
-            wp_register_script('pluginscript', plugins_url('/assets/DL-Table.js', __FILE__));
-            wp_enqueue_script('pluginscript', plugins_url('/assets/DL-Table.js', __FILE__));
+            wp_register_style('pluginstyle', plugins_url('/assets/DM-Tools.css', __FILE__));
+            wp_enqueue_style('pluginstyle', plugins_url('/assets/DM-Tools.css', __FILE__));
+            wp_register_script('pluginscript', plugins_url('/assets/DM-Tools.js', __FILE__));
+            wp_enqueue_script('pluginscript', plugins_url('/assets/DM-Tools.js', __FILE__));
             wp_enqueue_style('bootstrap4', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css');
-            wp_enqueue_script('boot1', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', array(
-                'jquery'
-            ), '', true);
             wp_enqueue_script('boot2', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', array(
                 'jquery'
             ), '', true);
@@ -92,14 +85,14 @@ if (!class_exists('DM_Tools_WP')) {
             ), '', true);
         }
        
-        public function extra_user_profile_field()
+        public function player_access_field()
         {
 			$IsAdmin = is_author(get_current_user_id());    
 			if($IsAdmin){
 				// WP_Query arguments
 				$args = array(
 					'post_type' => array(
-						'downloads'
+						'Notes'
 					),
 					'post_status' => array(
 						'publish'
@@ -147,15 +140,14 @@ if (!class_exists('DM_Tools_WP')) {
             
 		}
 		
-		function save_extra_user_profile_field( $user_id ) {
+		function save_player_access_field( $user_id ) {
 
 			if ( !current_user_can( 'edit_user', $user_id ) )
 				return false;
 				if (isset($_POST['submit'])) {
 					if (!empty($_POST['grant_access'])) {
 						$granted= [];
-						// Loop to store and display values of individual checked checkbox.
-						// echo '[charsheet grant="';
+						
 						if (count($_POST['grant_access']) > 1) {
 							foreach ($_POST['grant_access'] as $selected) {
 								array_push($granted, $selected);
@@ -165,9 +157,9 @@ if (!class_exists('DM_Tools_WP')) {
 								array_push($granted, $selected);
 							}
 						}
-						// echo '"]';
+						
 					} else {
-						// echo "<b>Please Select Atleast One Option.</b>";
+						
 					}
 				}
 			/* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
@@ -186,7 +178,7 @@ if (!class_exists('DM_Tools_WP')) {
             if(empty($atts)){
 				$args = array(
 					'post_type' => array(
-						'downloads'
+						'Notes'
 					),
 					'post_status' => array(
 						'publish'
@@ -207,9 +199,7 @@ if (!class_exists('DM_Tools_WP')) {
 					$table .='		<div class="divTableCell downloads-col-2">&nbsp;View</div>';
 					$table .='		<div class="divTableCell downloads-col-3">&nbsp;Save</div>';
 					$table .='	</div>';
-					// $downloadables= '';
-					// echo count($grant_arr);
-					// echo print_r($atts);
+					
 					while ($loop->have_posts()) {
 						$loop->the_post();
 						$view= get_field("download")['url'];
@@ -241,86 +231,14 @@ if (!class_exists('DM_Tools_WP')) {
 					} // end while
 
 					$table.='</div></div>';
-					// echo $tableStart.$downloadables.$tableEnd;
+					
 					return $table;
 				} // end if
 				else {
 					return 'No posts available';
 				}
 			}
-			else{
-				// Attributes
-            
-				extract(shortcode_atts(array(
-					'grant' => array()
-				), $atts));
-				
-				$grant_arr = explode(',', $grant);
-				// WP_Query arguments
-				$args = array(
-					'post_type' => array(
-						'downloads'
-					),
-					'post_status' => array(
-						'publish'
-					),
-					'nopaging' => true,
-					'order' => 'ASC',
-					'orderby' => 'menu_order',
-					'post__in' => $grant_arr
-				);
-				
-				//New Query
-				$loop = new WP_Query($args);
-				if ($loop->have_posts()) {
-					$table ='<div class="divTable downloads-table">';
-					$table .='<div class="divTableBody">';
-					$table .='	<div class="divTableRow downloads-row downloads-head">';
-					$table .='		<div class="divTableCell downloads-col-1">&nbsp;Download</div>';
-					$table .='		<div class="divTableCell downloads-col-2">&nbsp;View</div>';
-					$table .='		<div class="divTableCell downloads-col-3">&nbsp;Save</div>';
-					$table .='	</div>';
-					// $downloadables= '';
-					// echo count($grant_arr);
-					// echo print_r($atts);
-					while ($loop->have_posts()) {
-						$loop->the_post();
-						$view= get_field("download")['url'];
-						$save= get_field("download")['link'];
-
-						$table.= '<div class="divTableRow downloads-row">
-						<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-						<div class="divTableCell downloads-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
-						<div class="divTableCell downloads-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
-						</div>
-						<!-- Modal -->
-							<div class="modal fade" id="' . get_the_ID() . '" tabindex="-1" role="dialog" aria-labelledby="' . get_the_title() . '" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<iframe src="' . $view . '" style="height:800px;width:300px;"></iframe>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								</div>
-								</div>
-							</div>
-						</div>';
-					} // end while
-
-					$table.='</div></div>';
-					// echo $tableStart.$downloadables.$tableEnd;
-					return $table;
-				} // end if
-				else {
-					return 'No posts available';
-				}
-			}
+			else{}
             
         }
     }
