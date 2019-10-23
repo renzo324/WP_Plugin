@@ -209,24 +209,6 @@ if (!class_exists('DM_Tools_WP')) {
 						<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
 						<div class="divTableCell downloads-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
 						<div class="divTableCell downloads-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
-						</div>
-						<!-- Modal -->
-							<div class="modal fade" id="' . get_the_ID() . '" tabindex="-1" role="dialog" aria-labelledby="' . get_the_title() . '" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-									</button>
-								</div>
-								<div class="modal-body">
-									<iframe src="' . $view . '" style="height:800px;width:300px;"></iframe>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-								</div>
-								</div>
-							</div>
 						</div>';}
 					} // end while
 
