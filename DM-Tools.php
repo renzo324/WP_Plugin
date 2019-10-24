@@ -57,6 +57,7 @@ if (!class_exists('DM_Tools_WP')) {
 				'save_player_access_field'
 				
 			));
+			add_action( 'init', array( $this, 'custom_post_type' ) );
 
         }
         function register()
@@ -87,12 +88,12 @@ if (!class_exists('DM_Tools_WP')) {
        
         public function player_access_field()
         {
-			$IsAdmin = is_author(get_current_user_id());    
+			$IsAdmin = is_super_admin(get_current_user_id());    
 			if($IsAdmin){
 				// WP_Query arguments
 				$args = array(
 					'post_type' => array(
-						'Notes'
+						'notes'
 					),
 					'post_status' => array(
 						'publish'
@@ -115,7 +116,6 @@ if (!class_exists('DM_Tools_WP')) {
 							</div>';
 					while ($loop->have_posts()) {
 						$loop->the_post();
-						$url= get_field("download")['url'];
 						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'grant_access')[0])){
 							echo '<div class="divTableRow downloads-row">
 							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
@@ -168,9 +168,12 @@ if (!class_exists('DM_Tools_WP')) {
         //things to run on activation hook
         function activate()
         {
+			
             flush_rewrite_rules();
         }
-        
+        function custom_post_type(){
+			register_post_type( 'notes', ['public' => true, 'label' => 'Notes'] );
+		}
         //User Facing functionality
         public function character_sheet_access($atts)
         {
@@ -224,6 +227,7 @@ if (!class_exists('DM_Tools_WP')) {
             
         }
     }
+
     $DM_Tools_WP = new DM_Tools_WP();
     $DM_Tools_WP->register();
     //activation
