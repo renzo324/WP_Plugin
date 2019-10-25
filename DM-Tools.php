@@ -35,7 +35,7 @@ if (!class_exists('DM_Tools_WP')) {
                 $this,
                 'enqueue'
             ));
-            add_shortcode('charsheet', array(
+            add_shortcode('charnotes', array(
                 $this,
                 'character_sheet_access'
 			));
@@ -57,7 +57,6 @@ if (!class_exists('DM_Tools_WP')) {
 				'save_player_access_field'
 				
 			));
-			add_action( 'init', array( $this, 'custom_post_type' ) );
 
         }
         function register()
@@ -93,7 +92,7 @@ if (!class_exists('DM_Tools_WP')) {
 				// WP_Query arguments
 				$args = array(
 					'post_type' => array(
-						'notes'
+						'dm_notes'
 					),
 					'post_status' => array(
 						'publish'
@@ -117,9 +116,9 @@ if (!class_exists('DM_Tools_WP')) {
 					while ($loop->have_posts()) {
 						$loop->the_post();
 						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'grant_access')[0])){
-							echo '<div class="divTableRow downloads-row">
+							echo '<div class="divTableRow downloads-row table-success">
 							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-							<div class="divTableCell downloads-col-2 table-success">&nbsp;    <input type="checkbox" name="grant_access[]" checked="checked" value="' . get_the_ID() . '"></div>
+							<div class="divTableCell downloads-col-2 ">&nbsp;    <input type="checkbox" name="grant_access[]" checked="checked" value="' . get_the_ID() . '"></div>
 							</div>';
 						}else{
 							echo '<div class="divTableRow downloads-row">
@@ -171,9 +170,7 @@ if (!class_exists('DM_Tools_WP')) {
 			
             flush_rewrite_rules();
         }
-        function custom_post_type(){
-			register_post_type( 'notes', ['public' => true, 'label' => 'Notes'] );
-		}
+        
         //User Facing functionality
         public function character_sheet_access($atts)
         {
@@ -181,7 +178,7 @@ if (!class_exists('DM_Tools_WP')) {
             if(empty($atts)){
 				$args = array(
 					'post_type' => array(
-						'Notes'
+						'dm_notes'
 					),
 					'post_status' => array(
 						'publish'
@@ -198,21 +195,13 @@ if (!class_exists('DM_Tools_WP')) {
 					$table ='<div class="divTable downloads-table">';
 					$table .='<div class="divTableBody">';
 					$table .='	<div class="divTableRow downloads-row downloads-head">';
-					$table .='		<div class="divTableCell downloads-col-1">&nbsp;Download</div>';
-					$table .='		<div class="divTableCell downloads-col-2">&nbsp;View</div>';
-					$table .='		<div class="divTableCell downloads-col-3">&nbsp;Save</div>';
+					$table .='		<div class="divTableCell downloads-col-1">&nbsp; Lore and Items</div>';
 					$table .='	</div>';
 					
 					while ($loop->have_posts()) {
 						$loop->the_post();
-						$view= get_field("download")['url'];
-						$save= get_field("download")['link'];
-						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'grant_access')[0])){
-						$table.= '<div class="divTableRow downloads-row">
-						<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-						<div class="divTableCell downloads-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
-						<div class="divTableCell downloads-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
-						</div>';}
+print_r( get_user_meta(get_current_user_id(), 'grant_access'[0]));
+
 					} // end while
 
 					$table.='</div></div>';
