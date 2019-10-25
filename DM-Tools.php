@@ -200,7 +200,31 @@ if (!class_exists('DM_Tools_WP')) {
 					
 					while ($loop->have_posts()) {
 						$loop->the_post();
-print_r( get_user_meta(get_current_user_id(), 'grant_access'[0]));
+						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'folido_grant')[0])){
+							$table.= '<div class="divTableRow downloads-row">
+							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
+							<div class="divTableCell downloads-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
+							<div class="divTableCell downloads-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
+							</div>
+							<!-- Modal -->
+								<div class="modal fade" id="' . get_the_ID() . '" tabindex="-1" role="dialog" aria-labelledby="' . get_the_title() . '" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+									<div class="modal-header">
+									' . get_the_title() . '
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										'.get_the_content().'
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+									</div>
+									</div>
+								</div>
+							</div>';}
 
 					} // end while
 
