@@ -76,7 +76,7 @@ if (!class_exists('DM_Tools_WP')) {
             wp_enqueue_style('pluginstyle', plugins_url('/assets/DM-Tools.css', __FILE__));
             wp_register_script('pluginscript', plugins_url('/assets/DM-Tools.js', __FILE__));
             wp_enqueue_script('pluginscript', plugins_url('/assets/DM-Tools.js', __FILE__));
-            wp_enqueue_style('bootstrap4', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css');
+            wp_enqueue_style('bootstrap4', 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
             wp_enqueue_script('boot2', 'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js', array(
                 'jquery'
             ), '', true);
