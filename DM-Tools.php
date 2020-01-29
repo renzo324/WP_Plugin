@@ -240,7 +240,14 @@ if (!class_exists('DM_Tools_WP')) {
             
         }
     }
+/**
+ * Check if WooCommerce is active
+ **/
+if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+    // Put your plugin code here
+}
 
+add_action('plugins_loaded', 'wc_offline_gateway_init', 11);
     $DM_Tools_WP = new DM_Tools_WP();
     $DM_Tools_WP->register();
     //activation
