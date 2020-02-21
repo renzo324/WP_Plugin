@@ -9,5 +9,8 @@ if (!defined('WPINC')) {
  **/
 if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
     // Put your plugin code here
+    function age_gate() {}
+    function ick_pay() {}
+    function google_pay() {}
 }
 ?>
