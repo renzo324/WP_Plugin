@@ -35,19 +35,28 @@ if (!class_exists('SUD_Payments_WPWC')){
     class SUD_Payments_WPWC extends WC_Payment_Gateway{
       
  		public function __construct() {
-            $this->id = 'other_payment';
-            $this->method_title = __('ICK Gateway','woocommerce-other-payment-gateway');
-            $this->title = __('ICK Gateway','woocommerce-other-payment-gateway');
-            $this->has_fields = true;
+            global $woocommerce;
+
+            $this->id                   = 'nmi_three_step';
+            $this->icon                 = null;
+            $this->has_fields           = false;
+            $this->method_title         = __( 'NMI Gateway For WooCommerce', 'nmi_three_step' );
+        $this->order_button_text    = __( 'Pay Securely', 'nmi_three_step' );
+            $this->gatewayURL           = 'https://secure.networkmerchants.com/api/v2/three-step';
+    
             $this->init_form_fields();
             $this->init_settings();
-            $this->enabled = $this->get_option('enabled');
-            $this->title = $this->get_option('title');
-            $this->description = $this->get_option('description');
-            $this->hide_text_box = $this->get_option('hide_text_box');
-            $this->text_box_required = $this->get_option('text_box_required');
-            $this->order_status = $this->get_option('order_status');
     
+            // Define user set variables.
+            $this->title                        = $this->get_option('title');
+            $this->description                  = $this->get_option('description');
+            $this->instructions                 = $this->get_option('instructions');
+        $this->enable_for_methods           = $this->get_option('enable_for_methods', array());
+        $this->apikey                       = sanitize_text_field($this->get_option('apikey'));
+        $this->transactiontype              = sanitize_text_field($this->get_option('transactiontype'));
+            $this->finalorderstatus             = $this->get_option('finalorderstatus');
+            $this->redirecturl                  = $this->get_option('redirecturl');
+                    
     
             add_action('woocommerce_update_options_payment_gateways_'.$this->id, array($this, 'process_admin_options'));
          }
