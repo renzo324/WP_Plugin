@@ -3,7 +3,7 @@
 /**
  *
  * @link              https://github.com/renzo324/
- * @since             1.0.0
+ * @since             1.0.1
  * @package           DM-Tools
  *
  * @wordpress-plugin
