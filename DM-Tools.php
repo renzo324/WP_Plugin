@@ -178,7 +178,7 @@ if (!class_exists('DM_Tools_WP')) {
             if(empty($atts)){
 				$args = array(
 					'post_type' => array(
-						'dm_notes'
+						'pcs'
 					),
 					'post_status' => array(
 						'publish'
