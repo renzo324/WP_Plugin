@@ -105,25 +105,25 @@ if (!class_exists('DM_Tools_WP')) {
 				//New Query
 				$loop = new WP_Query($args);
 				if ($loop->have_posts()) {
-					echo '<h1>User Downloads</h1>';
-					echo '<div class="divTable downloads-table">
+					echo '<h1>DM Notes Table</h1>';
+					echo '<div class="divTable dm-notes-table">
 						<div class="divTableBody">
 						<form action="#" method="post"> 
-							<div class="divTableRow downloads-row downloads-head">
-								<div class="divTableCell downloads-col-1">&nbsp;File</div>
-								<div class="divTableCell downloads-col-2">&nbsp;Access</div>
+							<div class="divTableRow dm-notes-row dm-notes-head">
+								<div class="divTableCell dm-notes-col-1">&nbsp;File</div>
+								<div class="divTableCell dm-notes-col-2">&nbsp;Access</div>
 							</div>';
 					while ($loop->have_posts()) {
 						$loop->the_post();
 						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'grant_access')[0])){
-							echo '<div class="divTableRow downloads-row table-success">
-							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-							<div class="divTableCell downloads-col-2 ">&nbsp;    <input type="checkbox" name="grant_access[]" checked="checked" value="' . get_the_ID() . '"></div>
+							echo '<div class="divTableRow dm-notes-row table-success">
+							<div class="divTableCell dm-notes-col-1">&nbsp;' . get_the_title() . '</div>
+							<div class="divTableCell dm-notes-col-2 ">&nbsp;    <input type="checkbox" name="grant_access[]" checked="checked" value="' . get_the_ID() . '"></div>
 							</div>';
 						}else{
-							echo '<div class="divTableRow downloads-row">
-							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-							<div class="divTableCell downloads-col-2">&nbsp;    <input type="checkbox" name="grant_access[]" value="' . get_the_ID() . '"></div>
+							echo '<div class="divTableRow dm-notes-row">
+							<div class="divTableCell dm-notes-col-1">&nbsp;' . get_the_title() . '</div>
+							<div class="divTableCell dm-notes-col-2">&nbsp;    <input type="checkbox" name="grant_access[]" value="' . get_the_ID() . '"></div>
 							</div>';
 						}
 					} // end while
@@ -192,19 +192,19 @@ if (!class_exists('DM_Tools_WP')) {
 				//New Query
 				$loop = new WP_Query($args);
 				if ($loop->have_posts()) {
-					$table ='<div class="divTable downloads-table">';
+					$table ='<div class="divTable pcs-table">';
 					$table .='<div class="divTableBody">';
-					$table .='	<div class="divTableRow downloads-row downloads-head">';
-					$table .='		<div class="divTableCell downloads-col-1">&nbsp; Lore and Items</div>';
+					$table .='	<div class="divTableRow pcs-row pcs-head">';
+					$table .='		<div class="divTableCell pcs-col-1">&nbsp; Lore and Items</div>';
 					$table .='	</div>';
 					
 					while ($loop->have_posts()) {
 						$loop->the_post();
 						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'folido_grant')[0])){
-							$table.= '<div class="divTableRow downloads-row">
-							<div class="divTableCell downloads-col-1">&nbsp;' . get_the_title() . '</div>
-							<div class="divTableCell downloads-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
-							<div class="divTableCell downloads-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
+							$table.= '<div class="divTableRow pcs-row">
+							<div class="divTableCell pcs-col-1">&nbsp;' . get_the_title() . '</div>
+							<div class="divTableCell pcs-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
+							<div class="divTableCell pcs-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
 							</div>
 							<!-- Modal -->
 								<div class="modal fade" id="' . get_the_ID() . '" tabindex="-1" role="dialog" aria-labelledby="' . get_the_title() . '" aria-hidden="true">
