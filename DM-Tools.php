@@ -167,7 +167,6 @@ if (!class_exists('DM_Tools_WP')) {
         //things to run on activation hook
         function activate()
         {
-			
             flush_rewrite_rules();
         }
         
@@ -192,45 +191,14 @@ if (!class_exists('DM_Tools_WP')) {
 				//New Query
 				$loop = new WP_Query($args);
 				if ($loop->have_posts()) {
-					$table ='<div class="divTable pcs-table">';
-					$table .='<div class="divTableBody">';
-					$table .='	<div class="divTableRow pcs-row pcs-head">';
-					$table .='		<div class="divTableCell pcs-col-1">&nbsp; Lore and Items</div>';
-					$table .='	</div>';
+					
 					
 					while ($loop->have_posts()) {
 						$loop->the_post();
-						if(in_array(get_the_ID(), get_user_meta(get_current_user_id(), 'folido_grant')[0])){
-							$table.= '<div class="divTableRow pcs-row">
-							<div class="divTableCell pcs-col-1">&nbsp;' . get_the_title() . '</div>
-							<div class="divTableCell pcs-col-2">&nbsp;<a href="#" data-toggle="modal" data-target="#' . get_the_ID() . '">View</a></div>
-							<div class="divTableCell pcs-col-2">&nbsp;<a href="' . $view . '" target="_blank">Save</a></div>
-							</div>
-							<!-- Modal -->
-								<div class="modal fade" id="' . get_the_ID() . '" tabindex="-1" role="dialog" aria-labelledby="' . get_the_title() . '" aria-hidden="true">
-								<div class="modal-dialog" role="document">
-									<div class="modal-content">
-									<div class="modal-header">
-									' . get_the_title() . '
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										'.get_the_content().'
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									</div>
-									</div>
-								</div>
-							</div>';}
+						
 
 					} // end while
 
-					$table.='</div></div>';
-					
-					return $table;
 				} // end if
 				else {
 					return 'No posts available';
