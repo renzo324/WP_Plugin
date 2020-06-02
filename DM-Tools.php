@@ -10,7 +10,7 @@
  * Plugin Name:       DM-Tools
  * Plugin URI:        https://github.com/renzo324/WP_Plugin
  * Description:       Dungeon Master's tools via WordPress
- * Version:           1.0.0
+ * Version:           1.2.1
  * Author:            Lorenzo Ibay
  * Author URI:        https://github.com/renzo324/
  * License:           GPL-2.0+
@@ -23,7 +23,7 @@
 if (!defined('WPINC')) {
     die;
 }
-define('DM_TOOLS_VERSION', '1.0.1');
+define('DM_TOOLS_VERSION', '1.2.1');
 if (!class_exists('DM_Tools_WP')) {
     class DM_Tools_WP
     {
