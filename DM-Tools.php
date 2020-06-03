@@ -39,24 +39,6 @@ if (!class_exists('DM_Tools_WP')) {
                 $this,
                 'character_sheet_access'
 			));
-            add_action('personal_options', array(
-                $this,
-                'player_access_field'
-            ));
-            add_action('personal_options', array(
-                $this,
-                'player_access_field'
-			));
-			add_action( 'personal_options_update', array(
-				$this,
-				'save_player_access_field'
-				
-			));
-			add_action( 'edit_user_profile_update',array(
-				$this,
-				'save_player_access_field'
-				
-			));
 
         }
         function register()
